@@ -1,0 +1,73 @@
+/************************************************
+Copyright (c) 2020, Mohammad Hosseinabady
+All rights reserved.
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+1. Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. // Copyright (c) 2020, Mohammad Hosseinabady.
+************************************************/
+
+#include "ascii_on_7segment.h"
+
+
+
+
+
+void ascii_on_7segment(
+		ap_uint<8> a,
+		ap_uint<8> *segment_data,
+		ap_uint<4> *segment_ctrl,
+		ap_uint<8> *led ) {
+#pragma HLS INTERFACE ap_none port=a
+#pragma HLS INTERFACE ap_none port=segment_data
+#pragma HLS INTERFACE ap_none port=segment_ctrl
+#pragma HLS INTERFACE ap_none port=led
+#pragma HLS INTERFACE ap_ctrl_none port=return
+
+
+	*led = a;
+	ap_uint<3> index = a(2,0);
+
+	switch(index) {
+	case 1:
+		*segment_data = seven_segment_code[1];
+		break;
+	case 2:
+		*segment_data = seven_segment_code[2];
+		break;
+	case 3:
+		*segment_data = seven_segment_code[3];
+		break;
+	case 4:
+		*segment_data = seven_segment_code[4];
+		break;
+	case 5:
+		*segment_data = seven_segment_code[5];
+		break;
+	case 6:
+		*segment_data = seven_segment_code[6];
+		break;
+	case 7:
+		*segment_data = seven_segment_code[7];
+		break;
+	default:
+		*segment_data = seven_segment_code[0];
+		break;
+	}
+
+	*segment_ctrl = 0b1110;
+}
+
